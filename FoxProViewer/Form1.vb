@@ -1,0 +1,338 @@
+Public Class Form1
+
+  Dim m_ConnectionString As String
+  Dim m_Dataset As DataSet
+  Dim m_Da As OleDb.OleDbDataAdapter
+  Dim m_Builder As OleDb.OleDbCommandBuilder
+  Dim m_TableName As String
+
+  Public Property DataSource() As DataSet
+    Get
+      Return m_Dataset
+    End Get
+    Set(ByVal value As DataSet)
+      m_Dataset = value
+      If value IsNot Nothing AndAlso value.Tables.Count > 0 Then
+        Me.Grid.DataSource = value.Tables(0)
+      Else
+        Me.Grid.DataSource = Nothing
+      End If
+
+    End Set
+  End Property
+
+  Public Property CurrentConnectionString() As String
+    Get
+      Return m_ConnectionString
+    End Get
+    Set(ByVal value As String)
+      m_ConnectionString = value
+    End Set
+  End Property
+
+  Public Property DataContainer() As String
+    Get
+      If Me.txtDataFolder.Text.ToLower.EndsWith(".dbc") Then
+        Return Me.txtDataFolder.Text
+      Else
+        Return ""
+      End If
+    End Get
+    Set(ByVal value As String)
+      Me.txtDataFolder.Text = value
+      'Me.DataFolder = IO.Path.GetDirectoryName(value)
+    End Set
+  End Property
+
+  Public Property DataFolder() As String
+    Get
+      If Me.UseDbContainer OrElse LCase(Me.txtDataFolder.Text).EndsWith(".dbc") Then
+        Return IO.Path.GetDirectoryName(Me.txtDataFolder.Text)
+      Else
+        Return Me.txtDataFolder.Text
+      End If
+    End Get
+    Set(ByVal value As String)
+      Me.txtDataFolder.Text = value
+    End Set
+  End Property
+
+  Public Property UseDbContainer() As Boolean
+    Get
+      Return Me.chkUseDbContainer.Checked
+    End Get
+    Set(ByVal value As Boolean)
+      Me.chkUseDbContainer.Checked = value
+    End Set
+  End Property
+
+  Private Sub btnFillDbTables_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnFillDbTables.Click
+    Me.FillDbTables()
+  End Sub
+
+  Private Sub FillDbTables()
+
+    Me.cboTables.Items.Clear()
+
+    If IO.Directory.Exists(Me.DataFolder) = False Then
+      MessageBox.Show("Invalid Data folder", "BAD Data Folder!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+      Return
+    End If
+
+    Dim files() As String = IO.Directory.GetFiles(Me.DataFolder, "*.dbf")
+
+    For Each t As String In files
+      'Me.cboTables.Items.Add(t.Replace(".dbf", ""))
+      Me.cboTables.Items.Add(IO.Path.GetFileName(t).Replace(".dbf", "").Replace(".DBF", ""))
+    Next
+
+  End Sub
+
+  Private Sub btnDataFolder_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDataFolder.Click
+    If Me.UseDbContainer Then
+      With Me.dlgOpen
+        .Title = "Open Fox Pro Data"
+        .Filter = "Fox Pro Db Container(*.dbc)|*.dbc" '|Fox Pro Data Table (*.dbf)|*.dbf|All Files (*.*)|*.*"
+        .Multiselect = False
+        If .ShowDialog = Windows.Forms.DialogResult.OK Then
+          Me.DataContainer = .FileName
+          Me.FillDbTables()
+        End If
+      End With
+    Else
+      If Me.dlgFolder.ShowDialog = Windows.Forms.DialogResult.OK Then
+        Me.DataFolder = Me.dlgFolder.SelectedPath
+        Me.FillDbTables()
+      End If
+    End If
+
+  End Sub
+
+  Private Sub cboTables_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTables.SelectedIndexChanged
+    Me.OpenTable(Me.cboTables.Text)
+  End Sub
+
+  Private Shared Function GetBuilder(ByVal da As OleDb.OleDbDataAdapter) As OleDb.OleDbCommandBuilder
+    Dim b As New OleDb.OleDbCommandBuilder(da)
+    b.SetAllValues = False
+    Return b
+  End Function
+
+  Private ReadOnly Property CurrentTableFile() As String
+    Get
+      Return IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
+    End Get
+  End Property
+
+
+  Private Sub OpenTable(ByVal tableName As String)
+
+
+    Me.Grid.DataSource = Nothing
+
+    If tableName = "" Then Return
+    Dim tableFile As String = IO.Path.Combine(Me.DataFolder, tableName & ".dbf")
+    '    Dim KPDataConnection As New System.Data.OleDb.OleDbConnection(KPConnectionString)
+    Dim cnn As OleDb.OleDbConnection = Nothing
+    Dim ds As New DataSet '(tableName)
+    Dim dtSchema As DataTable = Nothing
+
+    If IO.File.Exists(tableFile) Then
+
+      If Me.UseDbContainer Then
+        Me.CurrentConnectionString = BuildConnectionString(Me.DataContainer, tableFile, True)
+      Else
+        Me.CurrentConnectionString = BuildConnectionString(tableFile)
+      End If
+
+      'auto set the command text as well
+      'Me.txtCommandText.Text = "UPDATE " & tableFile
+
+      cnn = New OleDb.OleDbConnection(Me.CurrentConnectionString)
+      'm_Da = New OleDb.OleDbDataAdapter("SELECT * FROM " & tableFile, cnn)
+      m_Da = New OleDb.OleDbDataAdapter
+      If chkBracketTableName.Checked Then
+        m_Da.SelectCommand = New OleDb.OleDbCommand("SELECT * FROM [" & tableFile & "]", cnn)
+      Else
+        m_Da.SelectCommand = New OleDb.OleDbCommand("SELECT * FROM " & tableFile & "", cnn)
+      End If
+
+      m_Builder = GetBuilder(m_Da)
+
+      'If da.UpdateCommand Is Nothing Then
+      '  MessageBox.Show("Update cmd not created", "TITLE", MessageBoxButtons.OK, MessageBoxIcon.Information)
+      'End If
+
+      Try
+        m_Da.Fill(ds, tableName)
+        Me.DataSource = ds
+        m_TableName = tableName
+      Catch ex As Exception
+        MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
+      Finally
+        'leave open so can SAVE
+      End Try
+
+      'Try
+      '  If cnn.State = ConnectionState.Closed Then cnn.Open()
+      '  dtSchema = cnn.GetSchema()
+      '  dtSchema = cnn.GetOleDbSchemaTable(OleDb.OleDbSchemaGuid.Columns, New Object() {Nothing, Nothing, Nothing, "TABLE"})
+      '  If cnn.State <> ConnectionState.Closed Then cnn.Close()
+      '  Me.Grid.DataSource = dtSchema
+      'Catch ex As Exception
+
+      'End Try
+
+      'try to gen update cmd
+      '### THIS DOENST WORK WITH FOX PRO, IT DOESNT SUPPORT SCHEMA
+      'Try
+      '  m_Builder.GetUpdateCommand(False)
+
+      '  Me.GridEditable = True
+      'Catch ex As Exception
+      '  'Trace.WriteLine(ex.Message)
+      Me.GridEditable = False
+      'End Try
+
+    End If
+  End Sub
+
+  Private WriteOnly Property GridEditable() As Boolean
+    Set(ByVal value As Boolean)
+      Me.btnSaveTable.Enabled = value
+      Me.Grid.AllowUserToAddRows = value
+      Me.Grid.AllowUserToDeleteRows = value
+    End Set
+  End Property
+
+  Private Sub SaveTable()
+    If Me.DataSource Is Nothing OrElse m_Da Is Nothing OrElse m_Builder Is Nothing Then
+      MessageBox.Show("Current Table not set", "Save Table", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    Else
+      'SAVE
+      'Dim dt As DataTable = Me.DataSource.GetChanges
+      'If dt IsNot Nothing Then
+      '  Try
+      '    m_Da.Update(dt)
+      '  Catch ex As Exception
+      '    MessageBox.Show(ex.Message, "Save FAILED!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+      '  End Try
+      'End If
+      Try
+        m_Da.Update(m_Dataset, Me.m_TableName)
+      Catch ex As Exception
+        MessageBox.Show(ex.Message, "Save FAILED!", MessageBoxButtons.OK, MessageBoxIcon.Error)
+      End Try
+
+    End If
+  End Sub
+
+  Private Shared Function BuildConnectionString(ByVal fileName As String) As String
+    Return "Provider=vfpoledb.1;Data Source=" & fileName & ";Collating Sequence=general;"
+
+  End Function
+  Private Shared Function BuildConnectionString(ByVal dbContainer As String, ByVal fileName As String, ByVal useDbContainer As Boolean) As String
+    'If useDSNLessConnection Then
+    '  Return "SourceType=DBF;SourceDB=" & fileName & ";Driver={Microsoft Visual FoxPro Driver}"
+    'Else
+    'End If
+
+    'cnn example from MS
+    'Provider=vfpoledb.1;Data Source=C:\MyDbFolder\MyDbContainer.dbc;Collating Sequence=machine;
+
+    If useDbContainer Then
+      Return "Provider=vfpoledb.1;Data Source=" & dbContainer & ";Collating Sequence=machine;"
+    Else
+      Return BuildConnectionString(fileName)
+    End If
+
+  End Function
+
+  Private Sub btnRefreshTable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefreshTable.Click
+    Me.OpenTable(Me.cboTables.Text)
+  End Sub
+
+  Private Sub btnSaveTable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveTable.Click
+    Me.SaveTable()
+  End Sub
+
+
+  Private Sub btnClearCommandText_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearCommandText.Click
+    Me.txtCommandText.Text = ""
+  End Sub
+
+  Private Sub btnExecuteCommand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExecuteCommand.Click
+
+    If Me.txtCommandText.Text = "" Then Return
+
+    Dim tableFile As String = IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
+    '    Dim KPDataConnection As New System.Data.OleDb.OleDbConnection(KPConnectionString)
+    Dim cnn As OleDb.OleDbConnection = Nothing
+    Dim cmd As OleDb.OleDbCommand = Nothing
+
+    If IO.File.Exists(tableFile) Then
+      'Me.CurrentConnectionString = BuildConnectionString(tableFile)
+      cnn = New OleDb.OleDbConnection(BuildConnectionString(tableFile))
+      'm_Da = New OleDb.OleDbDataAdapter("SELECT * FROM " & tableFile, cnn)
+
+      'm_Da.SelectCommand = New OleDb.OleDbCommand("SELECT * FROM " & tableFile, cnn)
+      'm_Builder = GetBuilder(m_Da)
+
+      cmd = cnn.CreateCommand()
+      cmd.CommandText = Me.txtCommandText.Text
+
+      Try
+        cnn.Open()
+        If Me.txtCommandText.Text.ToLower.StartsWith("select") Then
+          Dim dt As New DataTable
+          Dim dr As OleDb.OleDbDataReader
+          dr = cmd.ExecuteReader
+          dt.Load(dr)
+          dr.Close()
+          dr = Nothing
+          Me.Grid.DataSource = dt
+        Else
+          cmd.ExecuteNonQuery()
+
+        End If
+
+        MessageBox.Show("Command seems to have executed correctly", "Execute Command", MessageBoxButtons.OK, MessageBoxIcon.Information)
+      Catch ex As Exception
+        MessageBox.Show(ex.Message, "ERROR EXECUTING COMMAND", MessageBoxButtons.OK, MessageBoxIcon.Error)
+      Finally
+        If cmd IsNot Nothing Then
+          cmd.Dispose()
+          cmd = Nothing
+        End If
+        If cnn IsNot Nothing Then
+          cnn.Dispose()
+          cnn = Nothing
+        End If
+      End Try
+    Else
+      MessageBox.Show("Bad Table File", "Table file not found!", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End If
+
+  End Sub
+
+  Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+    Me.txtCommandText.SelectedText = Me.CurrentTableFile
+  End Sub
+
+  Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+    Me.txtCommandText.Text = "UPDATE " & Me.CurrentTableFile
+  End Sub
+
+  Private Sub chkUseDbContainer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseDbContainer.CheckedChanged
+    If Me.chkUseDbContainer.Checked Then
+      LblDbFolder.Text = "Db Container:"
+    Else
+      LblDbFolder.Text = "Data Folder:"
+    End If
+  End Sub
+
+  Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+    Me.Text &= " v" & Application.ProductVersion
+  End Sub
+
+End Class
