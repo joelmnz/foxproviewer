@@ -42,6 +42,7 @@ Partial Class Form1
     Me.chkBracketTableName = New System.Windows.Forms.CheckBox
     Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
     Me.PictureBox1 = New System.Windows.Forms.PictureBox
+    Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
     CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitContainer1.Panel1.SuspendLayout()
     Me.SplitContainer1.Panel2.SuspendLayout()
@@ -151,6 +152,7 @@ Partial Class Form1
     '
     'SplitContainer1.Panel2
     '
+    Me.SplitContainer1.Panel2.Controls.Add(Me.LinkLabel3)
     Me.SplitContainer1.Panel2.Controls.Add(Me.LinkLabel2)
     Me.SplitContainer1.Panel2.Controls.Add(Me.LinkLabel1)
     Me.SplitContainer1.Panel2.Controls.Add(Me.btnClearCommandText)
@@ -164,7 +166,7 @@ Partial Class Form1
     'LinkLabel2
     '
     Me.LinkLabel2.AutoSize = True
-    Me.LinkLabel2.Location = New System.Drawing.Point(256, -1)
+    Me.LinkLabel2.Location = New System.Drawing.Point(274, -1)
     Me.LinkLabel2.Name = "LinkLabel2"
     Me.LinkLabel2.Size = New System.Drawing.Size(92, 13)
     Me.LinkLabel2.TabIndex = 5
@@ -174,7 +176,7 @@ Partial Class Form1
     'LinkLabel1
     '
     Me.LinkLabel1.AutoSize = True
-    Me.LinkLabel1.Location = New System.Drawing.Point(155, 0)
+    Me.LinkLabel1.Location = New System.Drawing.Point(186, 0)
     Me.LinkLabel1.Name = "LinkLabel1"
     Me.LinkLabel1.Size = New System.Drawing.Size(82, 13)
     Me.LinkLabel1.TabIndex = 4
@@ -218,7 +220,7 @@ Partial Class Form1
     Me.txtCommandText.BackColor = System.Drawing.SystemColors.ActiveCaption
     Me.txtCommandText.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
     Me.txtCommandText.ForeColor = System.Drawing.Color.Lime
-    Me.txtCommandText.Location = New System.Drawing.Point(3, 16)
+    Me.txtCommandText.Location = New System.Drawing.Point(3, 15)
     Me.txtCommandText.Multiline = True
     Me.txtCommandText.Name = "txtCommandText"
     Me.txtCommandText.Size = New System.Drawing.Size(495, 53)
@@ -260,6 +262,16 @@ Partial Class Form1
     Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
     Me.PictureBox1.TabIndex = 7
     Me.PictureBox1.TabStop = False
+    '
+    'LinkLabel3
+    '
+    Me.LinkLabel3.AutoSize = True
+    Me.LinkLabel3.Location = New System.Drawing.Point(143, 0)
+    Me.LinkLabel3.Name = "LinkLabel3"
+    Me.LinkLabel3.Size = New System.Drawing.Size(37, 13)
+    Me.LinkLabel3.TabIndex = 6
+    Me.LinkLabel3.TabStop = True
+    Me.LinkLabel3.Text = "Select"
     '
     'Form1
     '
@@ -313,5 +325,6 @@ Partial Class Form1
   Friend WithEvents chkBracketTableName As System.Windows.Forms.CheckBox
   Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
   Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
+  Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
 
 End Class

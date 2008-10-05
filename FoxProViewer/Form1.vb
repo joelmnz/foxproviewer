@@ -1,4 +1,6 @@
 Public Class Form1
+  Implements IMessageFilter
+
 
   Dim m_ConnectionString As String
   Dim m_Dataset As DataSet
@@ -323,6 +325,10 @@ Public Class Form1
     Me.txtCommandText.Text = "UPDATE " & Me.CurrentTableFile
   End Sub
 
+  Private Sub LinkLabel3_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
+    Me.txtCommandText.Text = "SELECT * FROM " & Me.CurrentTableFile
+  End Sub
+
   Private Sub chkUseDbContainer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseDbContainer.CheckedChanged
     If Me.chkUseDbContainer.Checked Then
       LblDbFolder.Text = "Db Container:"
@@ -334,5 +340,90 @@ Public Class Form1
   Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
     Me.Text &= " v" & Application.ProductVersion
   End Sub
+
+#Region "  Drag Drop File Support  "
+
+  Private Declare Function DragAcceptFiles Lib "shell32.dll" (ByVal hwnd As IntPtr, ByVal accept As Boolean) As Long
+  Private Declare Function DragQueryFile Lib "shell32.dll" (ByVal hdrop As IntPtr, ByVal ifile As Integer, ByVal fname As System.Text.StringBuilder, ByVal fnsize As Integer) As Integer
+  Private Declare Sub DragFinish Lib "Shell32.dll" (ByVal hdrop As IntPtr)
+
+  Public Const WM_DROPFILES As Integer = 563
+
+  Public Sub New()
+
+    ' This call is required by the Windows Form Designer.
+    InitializeComponent()
+
+    ' Add any initialization after the InitializeComponent() call.
+    Application.AddMessageFilter(Me)
+    DragAcceptFiles(Me.Handle, True)
+  End Sub
+
+  Public Function PreFilterMessage(ByRef m As System.Windows.Forms.Message) As Boolean Implements System.Windows.Forms.IMessageFilter.PreFilterMessage
+    If m.Msg = WM_DROPFILES Then
+
+      'this code to handle multiple dropped files.. 
+
+      'not really neccesary for this example
+
+      Dim nfiles As Integer = DragQueryFile(m.WParam, -1, Nothing, 0)
+
+      Dim i As Integer
+      For i = 0 To nfiles
+        Dim sb As New System.Text.StringBuilder(256)
+        DragQueryFile(m.WParam, i, sb, 256)
+        HandleDroppedFiles(sb.ToString())
+      Next
+      DragFinish(m.WParam)
+      Return True
+      'Else
+      'Trace.WriteLine(m.Msg.ToString)
+    End If
+
+    Return False
+  End Function
+
+  Public Sub HandleDroppedFiles(ByVal file As String)
+    If Len(file) > 0 Then
+
+      'if db container file
+      If LCase(file).EndsWith(".dbc") Then
+        Me.chkUseDbContainer.Checked = True
+        Me.DataContainer = file
+        Me.FillDbTables()
+        Return
+      End If
+
+      'if fox pro db file direct
+      If LCase(file).EndsWith(".dbf") Or LCase(file).EndsWith(".cdx") Then
+        Me.chkUseDbContainer.Checked = False
+        Me.DataContainer = IO.Path.GetDirectoryName(file)
+        Me.FillDbTables()
+        Me.cboTables.Text = IO.Path.GetFileNameWithoutExtension(file)
+        Return
+      End If
+
+      'assume its a folder ?
+      If IO.Directory.Exists(file) Then
+        Dim dbcFiles() As String = IO.Directory.GetFiles(file, "*.dbc", IO.SearchOption.TopDirectoryOnly)
+        If dbcFiles.Length > 0 Then
+          Me.chkUseDbContainer.Checked = True
+          Me.DataContainer = dbcFiles(0)
+        Else
+          Me.chkUseDbContainer.Checked = False
+          Me.DataContainer = file
+
+        End If
+        Me.FillDbTables()
+      End If
+
+
+    End If 'file len = 0
+
+  End Sub
+
+#End Region
+
+
 
 End Class
