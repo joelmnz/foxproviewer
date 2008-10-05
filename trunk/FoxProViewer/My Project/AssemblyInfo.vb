@@ -9,10 +9,10 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("FoxProViewer")> 
-<Assembly: AssemblyDescription("")> 
+<Assembly: AssemblyDescription("Fox Pro Data Viewer Tool")> 
 <Assembly: AssemblyCompany("")> 
 <Assembly: AssemblyProduct("FoxProViewer")> 
-<Assembly: AssemblyCopyright("Copyright ©  2008")> 
+<Assembly: AssemblyCopyright("Open Source")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.2.2.0")> 
-<Assembly: AssemblyFileVersion("1.2.2.0")> 
+<Assembly: AssemblyVersion("1.2.3.0")> 
+<Assembly: AssemblyFileVersion("1.2.3.0")> 
