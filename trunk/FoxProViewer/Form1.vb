@@ -426,4 +426,23 @@ Public Class Form1
 
 
 
+  Private Sub btnExport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExport.Click
+
+    If Me.DataSource Is Nothing Then
+      MessageBox.Show("Nothing to save, load some data first", "Export Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+      Return
+    End If
+
+    If Me.dlgSave.ShowDialog = Windows.Forms.DialogResult.OK Then
+      'ToDo: all saving to multi formats: csv, xls etc
+      Try
+        Me.DataSource.WriteXml(Me.dlgSave.FileName)
+        MessageBox.Show("Data Exported Successfully", "Export Data", MessageBoxButtons.OK, MessageBoxIcon.Information)
+      Catch ex As Exception
+        MessageBox.Show(ex.Message, "Hmm, Error exporting data", MessageBoxButtons.OK, MessageBoxIcon.Error)
+      End Try
+    End If
+
+  End Sub
+
 End Class

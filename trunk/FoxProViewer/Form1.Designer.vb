@@ -32,6 +32,7 @@ Partial Class Form1
     Me.btnRefreshTable = New System.Windows.Forms.Button
     Me.btnSaveTable = New System.Windows.Forms.Button
     Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+    Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
     Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
     Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
     Me.btnClearCommandText = New System.Windows.Forms.Button
@@ -42,7 +43,8 @@ Partial Class Form1
     Me.chkBracketTableName = New System.Windows.Forms.CheckBox
     Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
     Me.PictureBox1 = New System.Windows.Forms.PictureBox
-    Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
+    Me.btnExport = New System.Windows.Forms.Button
+    Me.dlgSave = New System.Windows.Forms.SaveFileDialog
     CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SplitContainer1.Panel1.SuspendLayout()
     Me.SplitContainer1.Panel2.SuspendLayout()
@@ -120,18 +122,18 @@ Partial Class Form1
     '
     'btnRefreshTable
     '
-    Me.btnRefreshTable.Location = New System.Drawing.Point(12, 73)
+    Me.btnRefreshTable.Location = New System.Drawing.Point(5, 73)
     Me.btnRefreshTable.Name = "btnRefreshTable"
-    Me.btnRefreshTable.Size = New System.Drawing.Size(65, 23)
+    Me.btnRefreshTable.Size = New System.Drawing.Size(72, 23)
     Me.btnRefreshTable.TabIndex = 7
     Me.btnRefreshTable.Text = "Refresh"
     Me.btnRefreshTable.UseVisualStyleBackColor = True
     '
     'btnSaveTable
     '
-    Me.btnSaveTable.Location = New System.Drawing.Point(12, 111)
+    Me.btnSaveTable.Location = New System.Drawing.Point(5, 111)
     Me.btnSaveTable.Name = "btnSaveTable"
-    Me.btnSaveTable.Size = New System.Drawing.Size(65, 23)
+    Me.btnSaveTable.Size = New System.Drawing.Size(72, 23)
     Me.btnSaveTable.TabIndex = 8
     Me.btnSaveTable.Text = "Save"
     Me.btnSaveTable.UseVisualStyleBackColor = True
@@ -162,6 +164,16 @@ Partial Class Form1
     Me.SplitContainer1.Size = New System.Drawing.Size(579, 355)
     Me.SplitContainer1.SplitterDistance = 279
     Me.SplitContainer1.TabIndex = 9
+    '
+    'LinkLabel3
+    '
+    Me.LinkLabel3.AutoSize = True
+    Me.LinkLabel3.Location = New System.Drawing.Point(143, 0)
+    Me.LinkLabel3.Name = "LinkLabel3"
+    Me.LinkLabel3.Size = New System.Drawing.Size(37, 13)
+    Me.LinkLabel3.TabIndex = 6
+    Me.LinkLabel3.TabStop = True
+    Me.LinkLabel3.Text = "Select"
     '
     'LinkLabel2
     '
@@ -263,21 +275,27 @@ Partial Class Form1
     Me.PictureBox1.TabIndex = 7
     Me.PictureBox1.TabStop = False
     '
-    'LinkLabel3
+    'btnExport
     '
-    Me.LinkLabel3.AutoSize = True
-    Me.LinkLabel3.Location = New System.Drawing.Point(143, 0)
-    Me.LinkLabel3.Name = "LinkLabel3"
-    Me.LinkLabel3.Size = New System.Drawing.Size(37, 13)
-    Me.LinkLabel3.TabIndex = 6
-    Me.LinkLabel3.TabStop = True
-    Me.LinkLabel3.Text = "Select"
+    Me.btnExport.Location = New System.Drawing.Point(5, 229)
+    Me.btnExport.Name = "btnExport"
+    Me.btnExport.Size = New System.Drawing.Size(72, 23)
+    Me.btnExport.TabIndex = 12
+    Me.btnExport.Text = "Export"
+    Me.btnExport.UseVisualStyleBackColor = True
+    '
+    'dlgSave
+    '
+    Me.dlgSave.DefaultExt = "xml"
+    Me.dlgSave.Filter = "XML (*.xml)|*.xml"
+    Me.dlgSave.Title = "Save As"
     '
     'Form1
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
     Me.ClientSize = New System.Drawing.Size(674, 440)
+    Me.Controls.Add(Me.btnExport)
     Me.Controls.Add(Me.PictureBox1)
     Me.Controls.Add(Me.chkBracketTableName)
     Me.Controls.Add(Me.chkUseDbContainer)
@@ -326,5 +344,7 @@ Partial Class Form1
   Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
   Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
   Friend WithEvents LinkLabel3 As System.Windows.Forms.LinkLabel
+  Friend WithEvents btnExport As System.Windows.Forms.Button
+  Friend WithEvents dlgSave As System.Windows.Forms.SaveFileDialog
 
 End Class
