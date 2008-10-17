@@ -134,6 +134,8 @@ Public Class Form1
 
     If tableName = "" Then Return
     Dim tableFile As String = IO.Path.Combine(Me.DataFolder, tableName & ".dbf")
+    Dim lTableName As String = tableName
+    Dim lSql As String = ""
     '    Dim KPDataConnection As New System.Data.OleDb.OleDbConnection(KPConnectionString)
     Dim cnn As OleDb.OleDbConnection = Nothing
     Dim ds As New DataSet '(tableName)
@@ -153,11 +155,15 @@ Public Class Form1
       cnn = New OleDb.OleDbConnection(Me.CurrentConnectionString)
       'm_Da = New OleDb.OleDbDataAdapter("SELECT * FROM " & tableFile, cnn)
       m_Da = New OleDb.OleDbDataAdapter
-      If chkBracketTableName.Checked Then
-        m_Da.SelectCommand = New OleDb.OleDbCommand("SELECT * FROM [" & tableFile & "]", cnn)
-      Else
-        m_Da.SelectCommand = New OleDb.OleDbCommand("SELECT * FROM " & tableFile & "", cnn)
+
+      If Me.chkUseDbContainer.Checked = False Then
+        lTableName = tableFile
       End If
+
+      If Me.chkBracketTableName.Checked Then lTableName = "[" & lTableName & "]"
+
+      lSql = "SELECT * FROM " & lTableName
+      m_Da.SelectCommand = New OleDb.OleDbCommand(lSql, cnn)
 
       m_Builder = GetBuilder(m_Da)
 
@@ -318,15 +324,29 @@ Public Class Form1
   End Sub
 
   Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-    Me.txtCommandText.SelectedText = Me.CurrentTableFile
+    If Me.chkUseDbContainer.Checked Then
+      Me.txtCommandText.SelectedText = Me.cboTables.Text
+    Else
+      Me.txtCommandText.SelectedText = Me.CurrentTableFile
+    End If
   End Sub
 
   Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
-    Me.txtCommandText.Text = "UPDATE " & Me.CurrentTableFile
+    If Me.chkUseDbContainer.Checked Then
+      Me.txtCommandText.Text = "UPDATE " & Me.cboTables.Text
+    Else
+      Me.txtCommandText.Text = "UPDATE " & Me.CurrentTableFile
+    End If
   End Sub
 
   Private Sub LinkLabel3_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
-    Me.txtCommandText.Text = "SELECT * FROM " & Me.CurrentTableFile
+    If Me.chkUseDbContainer.Checked Then
+      'Me.cboTables.Text
+      Me.txtCommandText.Text = "SELECT * FROM " & Me.cboTables.Text
+    Else
+      Me.txtCommandText.Text = "SELECT * FROM " & Me.CurrentTableFile
+    End If
+
   End Sub
 
   Private Sub chkUseDbContainer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseDbContainer.CheckedChanged
