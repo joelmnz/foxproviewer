@@ -3,22 +3,23 @@ Public Class Form1
 
 
   Dim m_ConnectionString As String
-  Dim m_Dataset As DataSet
+  Dim m_Datasource As DataTable
   Dim m_Da As OleDb.OleDbDataAdapter
   Dim m_Builder As OleDb.OleDbCommandBuilder
   Dim m_TableName As String
 
-  Public Property DataSource() As DataSet
+  Public Property DataSource() As DataTable
     Get
-      Return m_Dataset
+      Return m_Datasource
     End Get
-    Set(ByVal value As DataSet)
-      m_Dataset = value
-      If value IsNot Nothing AndAlso value.Tables.Count > 0 Then
-        Me.Grid.DataSource = value.Tables(0)
-      Else
-        Me.Grid.DataSource = Nothing
-      End If
+    Set(ByVal value As DataTable)
+      m_Datasource = value
+      Me.Grid.DataSource = value
+      'If value IsNot Nothing AndAlso value.Tables.Count > 0 Then
+      '  Me.Grid.DataSource = value.Tables(0)
+      'Else
+      '  Me.Grid.DataSource = Nothing
+      'End If
 
     End Set
   End Property
@@ -111,7 +112,8 @@ Public Class Form1
   End Sub
 
   Private Sub cboTables_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cboTables.SelectedIndexChanged
-    Me.OpenTable(Me.cboTables.Text)
+    '### 15/12/2010 : stopped this as major lag if selecting big table
+    'Me.OpenTable(Me.cboTables.Text)
   End Sub
 
   Private Shared Function GetBuilder(ByVal da As OleDb.OleDbDataAdapter) As OleDb.OleDbCommandBuilder
@@ -128,6 +130,9 @@ Public Class Form1
 
 
   Private Sub OpenTable(ByVal tableName As String)
+    Me.OpenTable(tableName, "")
+  End Sub
+  Private Sub OpenTable(ByVal tableName As String, ByVal where As String)
 
 
     Me.Grid.DataSource = Nothing
@@ -142,7 +147,7 @@ Public Class Form1
     Dim dtSchema As DataTable = Nothing
 
     If IO.File.Exists(tableFile) Then
-
+      Me.StartExecutionTimer()
       If Me.UseDbContainer Then
         Me.CurrentConnectionString = BuildConnectionString(Me.DataContainer, tableFile, True)
       Else
@@ -163,6 +168,8 @@ Public Class Form1
       If Me.chkBracketTableName.Checked Then lTableName = "[" & lTableName & "]"
 
       lSql = "SELECT * FROM " & lTableName
+      If Len(where) > 0 Then lSql &= " WHERE " & where
+
       m_Da.SelectCommand = New OleDb.OleDbCommand(lSql, cnn)
 
       m_Builder = GetBuilder(m_Da)
@@ -173,9 +180,11 @@ Public Class Form1
 
       Try
         m_Da.Fill(ds, tableName)
-        Me.DataSource = ds
+        Me.DataSource = ds.Tables(0)
         m_TableName = tableName
+        Me.StopExecutionTimer()
       Catch ex As Exception
+        Me.StopExecutionTimer()
         MessageBox.Show(ex.Message, "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error)
       Finally
         'leave open so can SAVE
@@ -227,7 +236,7 @@ Public Class Form1
       '  End Try
       'End If
       Try
-        m_Da.Update(m_Dataset, Me.m_TableName)
+        m_Da.Update(Me.DataSource)
       Catch ex As Exception
         MessageBox.Show(ex.Message, "Save FAILED!", MessageBoxButtons.OK, MessageBoxIcon.Error)
       End Try
@@ -260,6 +269,10 @@ Public Class Form1
     Me.OpenTable(Me.cboTables.Text)
   End Sub
 
+  Private Sub BtnSchema_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnSchema.Click
+    Me.OpenTable(Me.cboTables.Text, "1=2")
+  End Sub
+
   Private Sub btnSaveTable_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSaveTable.Click
     Me.SaveTable()
   End Sub
@@ -267,6 +280,25 @@ Public Class Form1
 
   Private Sub btnClearCommandText_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearCommandText.Click
     Me.txtCommandText.Text = ""
+  End Sub
+
+
+  Private mExecutionTimerStart As Date
+
+  Private Sub StartExecutionTimer()
+    Me.lblExecutionTime.Text = ""
+    mExecutionTimerStart = Now
+  End Sub
+  Private Sub StopExecutionTimer()
+    Me.SetExecutionTime(mExecutionTimerStart, Now)
+  End Sub
+
+  Private Sub SetExecutionTime(ByVal startTime As Date, ByVal endTime As Date)
+    Dim ts As TimeSpan = endTime.Subtract(startTime)
+    Me.lblExecutionTime.Text = ts.ToString
+    If Me.DataSource IsNot Nothing Then
+      Me.lblExecutionTime.Text = Me.DataSource.Rows.Count & " Rows took: " & Me.lblExecutionTime.Text
+    End If
   End Sub
 
   Private Sub btnExecuteCommand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExecuteCommand.Click
@@ -279,7 +311,7 @@ Public Class Form1
     Dim cmd As OleDb.OleDbCommand = Nothing
 
     If IO.File.Exists(tableFile) Then
-      'Me.CurrentConnectionString = BuildConnectionString(tableFile)
+      Me.StartExecutionTimer()
       cnn = New OleDb.OleDbConnection(BuildConnectionString(tableFile))
       'm_Da = New OleDb.OleDbDataAdapter("SELECT * FROM " & tableFile, cnn)
 
@@ -295,17 +327,21 @@ Public Class Form1
           Dim dt As New DataTable
           Dim dr As OleDb.OleDbDataReader
           dr = cmd.ExecuteReader
+
           dt.Load(dr)
           dr.Close()
           dr = Nothing
-          Me.Grid.DataSource = dt
+          'Me.Grid.DataSource = dt
+
+          'Dim dv As DataView = VFPToolkit.vfpData.SqlExecute(cnn, "")
+          Me.DataSource = dt
         Else
           cmd.ExecuteNonQuery()
-
         End If
-
-        MessageBox.Show("Command seems to have executed correctly", "Execute Command", MessageBoxButtons.OK, MessageBoxIcon.Information)
+        Me.StopExecutionTimer()
+        'MessageBox.Show("Command seems to have executed correctly", "Execute Command", MessageBoxButtons.OK, MessageBoxIcon.Information)
       Catch ex As Exception
+        Me.StopExecutionTimer()
         MessageBox.Show(ex.Message, "ERROR EXECUTING COMMAND", MessageBoxButtons.OK, MessageBoxIcon.Error)
       Finally
         If cmd IsNot Nothing Then
@@ -465,4 +501,5 @@ Public Class Form1
 
   End Sub
 
+  
 End Class
