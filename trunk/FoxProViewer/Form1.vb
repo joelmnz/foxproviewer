@@ -304,7 +304,10 @@ Public Class Form1
   End Sub
 
   Private Sub btnExecuteCommand_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExecuteCommand.Click
+    Me.ExecuteCustomQuery()
+  End Sub
 
+  Private Sub ExecuteCustomQuery()
     If Me.txtCommandText.Text = "" Then Return
 
     Dim tableFile As String = IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
@@ -503,5 +506,11 @@ Public Class Form1
 
   End Sub
 
-  
+
+  Private Sub txtCommandText_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtCommandText.KeyDown
+    If e.KeyCode = Keys.F5 Then
+      Me.ExecuteCustomQuery()
+    End If
+  End Sub
+
 End Class
