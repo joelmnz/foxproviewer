@@ -288,14 +288,16 @@ Public Class Form1
   Private Sub StartExecutionTimer()
     Me.lblExecutionTime.Text = ""
     mExecutionTimerStart = Now
+    Me.UseWaitCursor = True
   End Sub
   Private Sub StopExecutionTimer()
     Me.SetExecutionTime(mExecutionTimerStart, Now)
+    Me.UseWaitCursor = False
   End Sub
 
   Private Sub SetExecutionTime(ByVal startTime As Date, ByVal endTime As Date)
     Dim ts As TimeSpan = endTime.Subtract(startTime)
-    Me.lblExecutionTime.Text = ts.ToString
+    Me.lblExecutionTime.Text = ts.TotalSeconds.ToString("n3") & " seconds"
     If Me.DataSource IsNot Nothing Then
       Me.lblExecutionTime.Text = Me.DataSource.Rows.Count & " Rows took: " & Me.lblExecutionTime.Text
     End If
