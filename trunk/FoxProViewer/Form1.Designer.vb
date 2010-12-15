@@ -87,7 +87,7 @@ Partial Class Form1
     '
     Me.cboTables.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                 Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.cboTables.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
+    Me.cboTables.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
     Me.cboTables.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
     Me.cboTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
     Me.cboTables.FormattingEnabled = True
@@ -118,10 +118,14 @@ Partial Class Form1
     '
     'Grid
     '
+    Me.Grid.AllowUserToAddRows = False
+    Me.Grid.AllowUserToDeleteRows = False
+    Me.Grid.AllowUserToOrderColumns = True
     Me.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
     Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
     Me.Grid.Location = New System.Drawing.Point(0, 0)
     Me.Grid.Name = "Grid"
+    Me.Grid.ReadOnly = True
     Me.Grid.Size = New System.Drawing.Size(604, 288)
     Me.Grid.TabIndex = 0
     '
@@ -142,6 +146,7 @@ Partial Class Form1
     Me.btnSaveTable.TabIndex = 8
     Me.btnSaveTable.Text = "Save"
     Me.btnSaveTable.UseVisualStyleBackColor = True
+    Me.btnSaveTable.Visible = False
     '
     'SplitContainer1
     '
@@ -234,12 +239,13 @@ Partial Class Form1
     Me.txtCommandText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                 Or System.Windows.Forms.AnchorStyles.Left) _
                 Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.txtCommandText.BackColor = System.Drawing.SystemColors.ActiveCaption
+    Me.txtCommandText.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
     Me.txtCommandText.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-    Me.txtCommandText.ForeColor = System.Drawing.Color.Lime
+    Me.txtCommandText.ForeColor = System.Drawing.Color.White
     Me.txtCommandText.Location = New System.Drawing.Point(3, 15)
     Me.txtCommandText.Multiline = True
     Me.txtCommandText.Name = "txtCommandText"
+    Me.txtCommandText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
     Me.txtCommandText.Size = New System.Drawing.Size(520, 53)
     Me.txtCommandText.TabIndex = 4
     '
@@ -299,9 +305,10 @@ Partial Class Form1
     '
     Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
     Me.Label1.AutoSize = True
+    Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
     Me.Label1.Location = New System.Drawing.Point(86, 440)
     Me.Label1.Name = "Label1"
-    Me.Label1.Size = New System.Drawing.Size(83, 13)
+    Me.Label1.Size = New System.Drawing.Size(95, 15)
     Me.Label1.TabIndex = 12
     Me.Label1.Text = "Execution Time:"
     '
@@ -309,9 +316,10 @@ Partial Class Form1
     '
     Me.lblExecutionTime.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
     Me.lblExecutionTime.AutoSize = True
-    Me.lblExecutionTime.Location = New System.Drawing.Point(175, 440)
+    Me.lblExecutionTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+    Me.lblExecutionTime.Location = New System.Drawing.Point(187, 440)
     Me.lblExecutionTime.Name = "lblExecutionTime"
-    Me.lblExecutionTime.Size = New System.Drawing.Size(16, 13)
+    Me.lblExecutionTime.Size = New System.Drawing.Size(16, 15)
     Me.lblExecutionTime.TabIndex = 13
     Me.lblExecutionTime.Text = "..."
     '
