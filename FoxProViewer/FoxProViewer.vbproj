@@ -55,6 +55,18 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\QueryResultsGridControl.Designer.vb">
+      <DependentUpon>QueryResultsGridControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\QueryResultsGridControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\SingleResultGridControl.Designer.vb">
+      <DependentUpon>SingleResultGridControl.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SingleResultGridControl.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -79,6 +91,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controls\QueryResultsGridControl.resx">
+      <DependentUpon>QueryResultsGridControl.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controls\SingleResultGridControl.resx">
+      <DependentUpon>SingleResultGridControl.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Form1.vb</DependentUpon>
