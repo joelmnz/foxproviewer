@@ -8,19 +8,12 @@ Public Class Form1
   Dim m_Builder As OleDb.OleDbCommandBuilder
   Dim m_TableName As String
 
-  Public Property DataSource() As DataTable
+  Public Property DataSource() As DataSet
     Get
-      Return m_Datasource
+      Return mQueryResultsControl.DataSource
     End Get
-    Set(ByVal value As DataTable)
-      m_Datasource = value
-      Me.Grid.DataSource = value
-      'If value IsNot Nothing AndAlso value.Tables.Count > 0 Then
-      '  Me.Grid.DataSource = value.Tables(0)
-      'Else
-      '  Me.Grid.DataSource = Nothing
-      'End If
-
+    Set(ByVal value As DataSet)
+      mQueryResultsControl.DataSource = value
     End Set
   End Property
 
@@ -135,7 +128,7 @@ Public Class Form1
   Private Sub OpenTable(ByVal tableName As String, ByVal where As String)
 
 
-    Me.Grid.DataSource = Nothing
+    Me.mQueryResultsControl.DataSource = Nothing
 
     If tableName = "" Then Return
     Dim tableFile As String = IO.Path.Combine(Me.DataFolder, tableName & ".dbf")
@@ -180,7 +173,7 @@ Public Class Form1
 
       Try
         m_Da.Fill(ds, tableName)
-        Me.DataSource = ds.Tables(0)
+        Me.DataSource = ds
         m_TableName = tableName
         Me.StopExecutionTimer()
       Catch ex As Exception
@@ -217,8 +210,8 @@ Public Class Form1
   Private WriteOnly Property GridEditable() As Boolean
     Set(ByVal value As Boolean)
       Me.btnSaveTable.Enabled = value
-      Me.Grid.AllowUserToAddRows = value
-      Me.Grid.AllowUserToDeleteRows = value
+      'Me.Grid.AllowUserToAddRows = value
+      'Me.Grid.AllowUserToDeleteRows = value
     End Set
   End Property
 
@@ -278,11 +271,6 @@ Public Class Form1
   End Sub
 
 
-  Private Sub btnClearCommandText_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClearCommandText.Click
-    Me.txtCommandText.Text = ""
-  End Sub
-
-
   Private mExecutionTimerStart As Date
 
   Private Sub StartExecutionTimer()
@@ -299,7 +287,7 @@ Public Class Form1
     Dim ts As TimeSpan = endTime.Subtract(startTime)
     Me.lblExecutionTime.Text = ts.TotalSeconds.ToString("n3") & " seconds"
     If Me.DataSource IsNot Nothing Then
-      Me.lblExecutionTime.Text = Me.DataSource.Rows.Count & " Rows took: " & Me.lblExecutionTime.Text
+      Me.lblExecutionTime.Text = Me.mQueryResultsControl.TotalRecords & " Rows took: " & Me.lblExecutionTime.Text
     End If
   End Sub
 
@@ -313,7 +301,8 @@ Public Class Form1
     Dim tableFile As String = IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
     '    Dim KPDataConnection As New System.Data.OleDb.OleDbConnection(KPConnectionString)
     Dim cnn As OleDb.OleDbConnection = Nothing
-    Dim cmd As OleDb.OleDbCommand = Nothing
+    'Dim cmd As OleDb.OleDbCommand = Nothing
+
 
     If IO.File.Exists(tableFile) Then
       Me.StartExecutionTimer()
@@ -323,25 +312,38 @@ Public Class Form1
       'm_Da.SelectCommand = New OleDb.OleDbCommand("SELECT * FROM " & tableFile, cnn)
       'm_Builder = GetBuilder(m_Da)
 
-      cmd = cnn.CreateCommand()
-      cmd.CommandText = Me.txtCommandText.Text
-
       Try
         cnn.Open()
         If Me.txtCommandText.Text.ToLower.StartsWith("select") Then
-          Dim dt As New DataTable
-          Dim dr As OleDb.OleDbDataReader
-          dr = cmd.ExecuteReader
 
-          dt.Load(dr)
-          dr.Close()
-          dr = Nothing
-          'Me.Grid.DataSource = dt
+          Dim ds As New DataSet
 
-          'Dim dv As DataView = VFPToolkit.vfpData.SqlExecute(cnn, "")
-          Me.DataSource = dt
+          'm_Da = New OleDb.OleDbDataAdapter(cmd)
+          'Dim ds As New DataSet
+          'm_Da.Fill(ds)
+          Dim szQueires() As String = Me.txtCommandText.Text.Split(";"c)
+
+          For Each szSql As String In szQueires
+            If Len(Trim(szSql)) = 0 Then Continue For
+
+            Dim dt As New DataTable
+            Using cmd As OleDb.OleDbCommand = cnn.CreateCommand()
+              cmd.CommandText = szSql
+              Using dr As OleDb.OleDbDataReader = cmd.ExecuteReader
+                dt.Load(dr)
+                dr.Close()
+              End Using
+            End Using
+
+            ds.Tables.Add(dt)
+          Next
+
+          Me.DataSource = ds
         Else
-          cmd.ExecuteNonQuery()
+          Using cmd As OleDb.OleDbCommand = cnn.CreateCommand
+            cmd.CommandText = Me.txtCommandText.Text
+            cmd.ExecuteNonQuery()
+          End Using
         End If
         Me.StopExecutionTimer()
         'MessageBox.Show("Command seems to have executed correctly", "Execute Command", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -349,10 +351,10 @@ Public Class Form1
         Me.StopExecutionTimer()
         MessageBox.Show(ex.Message, "ERROR EXECUTING COMMAND", MessageBoxButtons.OK, MessageBoxIcon.Error)
       Finally
-        If cmd IsNot Nothing Then
-          cmd.Dispose()
-          cmd = Nothing
-        End If
+        'If cmd IsNot Nothing Then
+        '  cmd.Dispose()
+        '  cmd = Nothing
+        'End If
         If cnn IsNot Nothing Then
           cnn.Dispose()
           cnn = Nothing
@@ -418,6 +420,17 @@ Public Class Form1
     ' Add any initialization after the InitializeComponent() call.
     Application.AddMessageFilter(Me)
     DragAcceptFiles(Me.Handle, True)
+    Me.InitMultiResultControl()
+  End Sub
+
+  Private WithEvents mQueryResultsControl As QueryResultsGridControl
+  Private Sub InitMultiResultControl()
+    mQueryResultsControl = New QueryResultsGridControl
+    With mQueryResultsControl
+      .Name = "mResultsControl"
+      .Parent = Me.SplitContainer1.Panel2
+      .Dock = DockStyle.Fill
+    End With
   End Sub
 
   Public Function PreFilterMessage(ByRef m As System.Windows.Forms.Message) As Boolean Implements System.Windows.Forms.IMessageFilter.PreFilterMessage

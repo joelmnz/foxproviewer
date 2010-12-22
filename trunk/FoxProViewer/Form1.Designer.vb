@@ -28,29 +28,25 @@ Partial Class Form1
     Me.cboTables = New System.Windows.Forms.ComboBox
     Me.btnFillDbTables = New System.Windows.Forms.Button
     Me.Label2 = New System.Windows.Forms.Label
-    Me.Grid = New System.Windows.Forms.DataGridView
     Me.btnRefreshTable = New System.Windows.Forms.Button
     Me.btnSaveTable = New System.Windows.Forms.Button
     Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-    Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
-    Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
-    Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
-    Me.btnClearCommandText = New System.Windows.Forms.Button
     Me.btnExecuteCommand = New System.Windows.Forms.Button
+    Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
     Me.Label3 = New System.Windows.Forms.Label
     Me.txtCommandText = New System.Windows.Forms.TextBox
+    Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
+    Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
     Me.chkUseDbContainer = New System.Windows.Forms.CheckBox
     Me.chkBracketTableName = New System.Windows.Forms.CheckBox
     Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-    Me.PictureBox1 = New System.Windows.Forms.PictureBox
     Me.btnExport = New System.Windows.Forms.Button
     Me.dlgSave = New System.Windows.Forms.SaveFileDialog
     Me.Label1 = New System.Windows.Forms.Label
     Me.lblExecutionTime = New System.Windows.Forms.Label
     Me.BtnSchema = New System.Windows.Forms.Button
-    CType(Me.Grid, System.ComponentModel.ISupportInitialize).BeginInit()
+    Me.PictureBox1 = New System.Windows.Forms.PictureBox
     Me.SplitContainer1.Panel1.SuspendLayout()
-    Me.SplitContainer1.Panel2.SuspendLayout()
     Me.SplitContainer1.SuspendLayout()
     CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
     Me.SuspendLayout()
@@ -116,26 +112,13 @@ Partial Class Form1
     Me.Label2.TabIndex = 3
     Me.Label2.Text = "Table"
     '
-    'Grid
-    '
-    Me.Grid.AllowUserToAddRows = False
-    Me.Grid.AllowUserToDeleteRows = False
-    Me.Grid.AllowUserToOrderColumns = True
-    Me.Grid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-    Me.Grid.Dock = System.Windows.Forms.DockStyle.Fill
-    Me.Grid.Location = New System.Drawing.Point(0, 0)
-    Me.Grid.Name = "Grid"
-    Me.Grid.ReadOnly = True
-    Me.Grid.Size = New System.Drawing.Size(604, 288)
-    Me.Grid.TabIndex = 0
-    '
     'btnRefreshTable
     '
     Me.btnRefreshTable.Location = New System.Drawing.Point(5, 73)
     Me.btnRefreshTable.Name = "btnRefreshTable"
     Me.btnRefreshTable.Size = New System.Drawing.Size(72, 23)
     Me.btnRefreshTable.TabIndex = 6
-    Me.btnRefreshTable.Text = "Refresh"
+    Me.btnRefreshTable.Text = "select *"
     Me.btnRefreshTable.UseVisualStyleBackColor = True
     '
     'btnSaveTable
@@ -143,7 +126,7 @@ Partial Class Form1
     Me.btnSaveTable.Location = New System.Drawing.Point(5, 131)
     Me.btnSaveTable.Name = "btnSaveTable"
     Me.btnSaveTable.Size = New System.Drawing.Size(72, 23)
-    Me.btnSaveTable.TabIndex = 8
+    Me.btnSaveTable.TabIndex = 9
     Me.btnSaveTable.Text = "Save"
     Me.btnSaveTable.UseVisualStyleBackColor = True
     Me.btnSaveTable.Visible = False
@@ -153,85 +136,50 @@ Partial Class Form1
     Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
                 Or System.Windows.Forms.AnchorStyles.Left) _
                 Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+    Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
     Me.SplitContainer1.Location = New System.Drawing.Point(83, 73)
     Me.SplitContainer1.Name = "SplitContainer1"
     Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
     '
     'SplitContainer1.Panel1
     '
-    Me.SplitContainer1.Panel1.Controls.Add(Me.Grid)
-    '
-    'SplitContainer1.Panel2
-    '
-    Me.SplitContainer1.Panel2.Controls.Add(Me.LinkLabel3)
-    Me.SplitContainer1.Panel2.Controls.Add(Me.LinkLabel2)
-    Me.SplitContainer1.Panel2.Controls.Add(Me.LinkLabel1)
-    Me.SplitContainer1.Panel2.Controls.Add(Me.btnClearCommandText)
-    Me.SplitContainer1.Panel2.Controls.Add(Me.btnExecuteCommand)
-    Me.SplitContainer1.Panel2.Controls.Add(Me.Label3)
-    Me.SplitContainer1.Panel2.Controls.Add(Me.txtCommandText)
+    Me.SplitContainer1.Panel1.Controls.Add(Me.btnExecuteCommand)
+    Me.SplitContainer1.Panel1.Controls.Add(Me.LinkLabel3)
+    Me.SplitContainer1.Panel1.Controls.Add(Me.Label3)
+    Me.SplitContainer1.Panel1.Controls.Add(Me.txtCommandText)
+    Me.SplitContainer1.Panel1.Controls.Add(Me.LinkLabel2)
+    Me.SplitContainer1.Panel1.Controls.Add(Me.LinkLabel1)
     Me.SplitContainer1.Size = New System.Drawing.Size(604, 364)
-    Me.SplitContainer1.SplitterDistance = 288
-    Me.SplitContainer1.TabIndex = 9
+    Me.SplitContainer1.SplitterDistance = 115
+    Me.SplitContainer1.TabIndex = 7
+    '
+    'btnExecuteCommand
+    '
+    Me.btnExecuteCommand.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+    Me.btnExecuteCommand.Location = New System.Drawing.Point(526, 2)
+    Me.btnExecuteCommand.Name = "btnExecuteCommand"
+    Me.btnExecuteCommand.Size = New System.Drawing.Size(75, 21)
+    Me.btnExecuteCommand.TabIndex = 1
+    Me.btnExecuteCommand.Text = "GO (F5)"
+    Me.btnExecuteCommand.UseVisualStyleBackColor = True
     '
     'LinkLabel3
     '
     Me.LinkLabel3.AutoSize = True
-    Me.LinkLabel3.Location = New System.Drawing.Point(143, 0)
+    Me.LinkLabel3.Location = New System.Drawing.Point(143, 5)
     Me.LinkLabel3.Name = "LinkLabel3"
     Me.LinkLabel3.Size = New System.Drawing.Size(37, 13)
-    Me.LinkLabel3.TabIndex = 1
+    Me.LinkLabel3.TabIndex = 3
     Me.LinkLabel3.TabStop = True
     Me.LinkLabel3.Text = "Select"
-    '
-    'LinkLabel2
-    '
-    Me.LinkLabel2.AutoSize = True
-    Me.LinkLabel2.Location = New System.Drawing.Point(274, -1)
-    Me.LinkLabel2.Name = "LinkLabel2"
-    Me.LinkLabel2.Size = New System.Drawing.Size(92, 13)
-    Me.LinkLabel2.TabIndex = 3
-    Me.LinkLabel2.TabStop = True
-    Me.LinkLabel2.Text = "Update Command"
-    '
-    'LinkLabel1
-    '
-    Me.LinkLabel1.AutoSize = True
-    Me.LinkLabel1.Location = New System.Drawing.Point(186, 0)
-    Me.LinkLabel1.Name = "LinkLabel1"
-    Me.LinkLabel1.Size = New System.Drawing.Size(82, 13)
-    Me.LinkLabel1.TabIndex = 2
-    Me.LinkLabel1.TabStop = True
-    Me.LinkLabel1.Text = "Insert Table File"
-    '
-    'btnClearCommandText
-    '
-    Me.btnClearCommandText.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.btnClearCommandText.Location = New System.Drawing.Point(526, 17)
-    Me.btnClearCommandText.Name = "btnClearCommandText"
-    Me.btnClearCommandText.Size = New System.Drawing.Size(75, 23)
-    Me.btnClearCommandText.TabIndex = 5
-    Me.btnClearCommandText.Text = "Clear"
-    Me.btnClearCommandText.UseVisualStyleBackColor = True
-    '
-    'btnExecuteCommand
-    '
-    Me.btnExecuteCommand.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.btnExecuteCommand.Location = New System.Drawing.Point(526, 46)
-    Me.btnExecuteCommand.Name = "btnExecuteCommand"
-    Me.btnExecuteCommand.Size = New System.Drawing.Size(75, 23)
-    Me.btnExecuteCommand.TabIndex = 6
-    Me.btnExecuteCommand.Text = "GO"
-    Me.btnExecuteCommand.UseVisualStyleBackColor = True
     '
     'Label3
     '
     Me.Label3.AutoSize = True
-    Me.Label3.Location = New System.Drawing.Point(3, 0)
+    Me.Label3.Location = New System.Drawing.Point(3, 5)
     Me.Label3.Name = "Label3"
     Me.Label3.Size = New System.Drawing.Size(134, 13)
-    Me.Label3.TabIndex = 0
+    Me.Label3.TabIndex = 2
     Me.Label3.Text = "Execute Maunal Command"
     '
     'txtCommandText
@@ -242,12 +190,32 @@ Partial Class Form1
     Me.txtCommandText.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
     Me.txtCommandText.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
     Me.txtCommandText.ForeColor = System.Drawing.Color.White
-    Me.txtCommandText.Location = New System.Drawing.Point(3, 15)
+    Me.txtCommandText.Location = New System.Drawing.Point(6, 21)
     Me.txtCommandText.Multiline = True
     Me.txtCommandText.Name = "txtCommandText"
     Me.txtCommandText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-    Me.txtCommandText.Size = New System.Drawing.Size(520, 53)
-    Me.txtCommandText.TabIndex = 4
+    Me.txtCommandText.Size = New System.Drawing.Size(595, 91)
+    Me.txtCommandText.TabIndex = 0
+    '
+    'LinkLabel2
+    '
+    Me.LinkLabel2.AutoSize = True
+    Me.LinkLabel2.Location = New System.Drawing.Point(274, 4)
+    Me.LinkLabel2.Name = "LinkLabel2"
+    Me.LinkLabel2.Size = New System.Drawing.Size(92, 13)
+    Me.LinkLabel2.TabIndex = 5
+    Me.LinkLabel2.TabStop = True
+    Me.LinkLabel2.Text = "Update Command"
+    '
+    'LinkLabel1
+    '
+    Me.LinkLabel1.AutoSize = True
+    Me.LinkLabel1.Location = New System.Drawing.Point(186, 5)
+    Me.LinkLabel1.Name = "LinkLabel1"
+    Me.LinkLabel1.Size = New System.Drawing.Size(82, 13)
+    Me.LinkLabel1.TabIndex = 4
+    Me.LinkLabel1.TabStop = True
+    Me.LinkLabel1.Text = "Insert Table File"
     '
     'chkUseDbContainer
     '
@@ -258,7 +226,7 @@ Partial Class Form1
     Me.chkUseDbContainer.Location = New System.Drawing.Point(8, 387)
     Me.chkUseDbContainer.Name = "chkUseDbContainer"
     Me.chkUseDbContainer.Size = New System.Drawing.Size(72, 59)
-    Me.chkUseDbContainer.TabIndex = 11
+    Me.chkUseDbContainer.TabIndex = 12
     Me.chkUseDbContainer.Text = "Use Db Container"
     Me.chkUseDbContainer.UseVisualStyleBackColor = False
     '
@@ -271,27 +239,17 @@ Partial Class Form1
     Me.chkBracketTableName.Location = New System.Drawing.Point(5, 333)
     Me.chkBracketTableName.Name = "chkBracketTableName"
     Me.chkBracketTableName.Size = New System.Drawing.Size(72, 48)
-    Me.chkBracketTableName.TabIndex = 10
+    Me.chkBracketTableName.TabIndex = 11
     Me.chkBracketTableName.Text = "Bracket Table Name"
     Me.ToolTip1.SetToolTip(Me.chkBracketTableName, "i.e. [table name]")
     Me.chkBracketTableName.UseVisualStyleBackColor = False
     '
-    'PictureBox1
-    '
-    Me.PictureBox1.Image = Global.FoxProViewer.My.Resources.Resources.foxpro7logocut
-    Me.PictureBox1.Location = New System.Drawing.Point(12, 185)
-    Me.PictureBox1.Name = "PictureBox1"
-    Me.PictureBox1.Size = New System.Drawing.Size(60, 70)
-    Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-    Me.PictureBox1.TabIndex = 7
-    Me.PictureBox1.TabStop = False
-    '
     'btnExport
     '
-    Me.btnExport.Location = New System.Drawing.Point(5, 261)
+    Me.btnExport.Location = New System.Drawing.Point(5, 293)
     Me.btnExport.Name = "btnExport"
     Me.btnExport.Size = New System.Drawing.Size(72, 23)
-    Me.btnExport.TabIndex = 9
+    Me.btnExport.TabIndex = 10
     Me.btnExport.Text = "Export"
     Me.btnExport.UseVisualStyleBackColor = True
     '
@@ -309,7 +267,7 @@ Partial Class Form1
     Me.Label1.Location = New System.Drawing.Point(86, 440)
     Me.Label1.Name = "Label1"
     Me.Label1.Size = New System.Drawing.Size(95, 15)
-    Me.Label1.TabIndex = 12
+    Me.Label1.TabIndex = 13
     Me.Label1.Text = "Execution Time:"
     '
     'lblExecutionTime
@@ -320,7 +278,7 @@ Partial Class Form1
     Me.lblExecutionTime.Location = New System.Drawing.Point(187, 440)
     Me.lblExecutionTime.Name = "lblExecutionTime"
     Me.lblExecutionTime.Size = New System.Drawing.Size(16, 15)
-    Me.lblExecutionTime.TabIndex = 13
+    Me.lblExecutionTime.TabIndex = 14
     Me.lblExecutionTime.Text = "..."
     '
     'BtnSchema
@@ -328,9 +286,19 @@ Partial Class Form1
     Me.BtnSchema.Location = New System.Drawing.Point(5, 102)
     Me.BtnSchema.Name = "BtnSchema"
     Me.BtnSchema.Size = New System.Drawing.Size(72, 23)
-    Me.BtnSchema.TabIndex = 7
+    Me.BtnSchema.TabIndex = 8
     Me.BtnSchema.Text = "Schema"
     Me.BtnSchema.UseVisualStyleBackColor = True
+    '
+    'PictureBox1
+    '
+    Me.PictureBox1.Image = Global.FoxProViewer.My.Resources.Resources.foxpro7logocut
+    Me.PictureBox1.Location = New System.Drawing.Point(12, 217)
+    Me.PictureBox1.Name = "PictureBox1"
+    Me.PictureBox1.Size = New System.Drawing.Size(60, 70)
+    Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
+    Me.PictureBox1.TabIndex = 7
+    Me.PictureBox1.TabStop = False
     '
     'Form1
     '
@@ -356,10 +324,8 @@ Partial Class Form1
     Me.Name = "Form1"
     Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
     Me.Text = "Fox Pro Viewer"
-    CType(Me.Grid, System.ComponentModel.ISupportInitialize).EndInit()
     Me.SplitContainer1.Panel1.ResumeLayout(False)
-    Me.SplitContainer1.Panel2.ResumeLayout(False)
-    Me.SplitContainer1.Panel2.PerformLayout()
+    Me.SplitContainer1.Panel1.PerformLayout()
     Me.SplitContainer1.ResumeLayout(False)
     CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
     Me.ResumeLayout(False)
@@ -374,13 +340,11 @@ Partial Class Form1
   Friend WithEvents cboTables As System.Windows.Forms.ComboBox
   Friend WithEvents btnFillDbTables As System.Windows.Forms.Button
   Friend WithEvents Label2 As System.Windows.Forms.Label
-  Friend WithEvents Grid As System.Windows.Forms.DataGridView
   Friend WithEvents btnRefreshTable As System.Windows.Forms.Button
   Friend WithEvents btnSaveTable As System.Windows.Forms.Button
   Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
   Friend WithEvents Label3 As System.Windows.Forms.Label
   Friend WithEvents txtCommandText As System.Windows.Forms.TextBox
-  Friend WithEvents btnClearCommandText As System.Windows.Forms.Button
   Friend WithEvents btnExecuteCommand As System.Windows.Forms.Button
   Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
   Friend WithEvents LinkLabel2 As System.Windows.Forms.LinkLabel
