@@ -46,15 +46,21 @@ Partial Class Form1
     Me.lblExecutionTime = New System.Windows.Forms.Label
     Me.BtnSchema = New System.Windows.Forms.Button
     Me.PictureBox1 = New System.Windows.Forms.PictureBox
+    Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
+    Me.FILEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+    Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+    Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+    Me.GenSQLCreateTableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
     Me.SplitContainer1.Panel1.SuspendLayout()
     Me.SplitContainer1.SuspendLayout()
     CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+    Me.MenuStrip1.SuspendLayout()
     Me.SuspendLayout()
     '
     'btnDataFolder
     '
     Me.btnDataFolder.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.btnDataFolder.Location = New System.Drawing.Point(636, 12)
+    Me.btnDataFolder.Location = New System.Drawing.Point(636, 26)
     Me.btnDataFolder.Name = "btnDataFolder"
     Me.btnDataFolder.Size = New System.Drawing.Size(51, 23)
     Me.btnDataFolder.TabIndex = 2
@@ -65,7 +71,7 @@ Partial Class Form1
     '
     Me.txtDataFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
                 Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.txtDataFolder.Location = New System.Drawing.Point(83, 14)
+    Me.txtDataFolder.Location = New System.Drawing.Point(83, 28)
     Me.txtDataFolder.Name = "txtDataFolder"
     Me.txtDataFolder.Size = New System.Drawing.Size(547, 20)
     Me.txtDataFolder.TabIndex = 1
@@ -73,7 +79,7 @@ Partial Class Form1
     'LblDbFolder
     '
     Me.LblDbFolder.AutoSize = True
-    Me.LblDbFolder.Location = New System.Drawing.Point(12, 17)
+    Me.LblDbFolder.Location = New System.Drawing.Point(12, 31)
     Me.LblDbFolder.Name = "LblDbFolder"
     Me.LblDbFolder.Size = New System.Drawing.Size(72, 13)
     Me.LblDbFolder.TabIndex = 0
@@ -87,7 +93,7 @@ Partial Class Form1
     Me.cboTables.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
     Me.cboTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
     Me.cboTables.FormattingEnabled = True
-    Me.cboTables.Location = New System.Drawing.Point(83, 46)
+    Me.cboTables.Location = New System.Drawing.Point(80, 55)
     Me.cboTables.MaxDropDownItems = 20
     Me.cboTables.Name = "cboTables"
     Me.cboTables.Size = New System.Drawing.Size(523, 21)
@@ -96,7 +102,7 @@ Partial Class Form1
     'btnFillDbTables
     '
     Me.btnFillDbTables.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-    Me.btnFillDbTables.Location = New System.Drawing.Point(612, 46)
+    Me.btnFillDbTables.Location = New System.Drawing.Point(609, 55)
     Me.btnFillDbTables.Name = "btnFillDbTables"
     Me.btnFillDbTables.Size = New System.Drawing.Size(75, 23)
     Me.btnFillDbTables.TabIndex = 5
@@ -106,7 +112,7 @@ Partial Class Form1
     'Label2
     '
     Me.Label2.AutoSize = True
-    Me.Label2.Location = New System.Drawing.Point(12, 49)
+    Me.Label2.Location = New System.Drawing.Point(9, 58)
     Me.Label2.Name = "Label2"
     Me.Label2.Size = New System.Drawing.Size(34, 13)
     Me.Label2.TabIndex = 3
@@ -114,7 +120,7 @@ Partial Class Form1
     '
     'btnRefreshTable
     '
-    Me.btnRefreshTable.Location = New System.Drawing.Point(5, 73)
+    Me.btnRefreshTable.Location = New System.Drawing.Point(5, 89)
     Me.btnRefreshTable.Name = "btnRefreshTable"
     Me.btnRefreshTable.Size = New System.Drawing.Size(72, 23)
     Me.btnRefreshTable.TabIndex = 6
@@ -123,7 +129,7 @@ Partial Class Form1
     '
     'btnSaveTable
     '
-    Me.btnSaveTable.Location = New System.Drawing.Point(5, 131)
+    Me.btnSaveTable.Location = New System.Drawing.Point(5, 147)
     Me.btnSaveTable.Name = "btnSaveTable"
     Me.btnSaveTable.Size = New System.Drawing.Size(72, 23)
     Me.btnSaveTable.TabIndex = 9
@@ -137,7 +143,7 @@ Partial Class Form1
                 Or System.Windows.Forms.AnchorStyles.Left) _
                 Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
     Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-    Me.SplitContainer1.Location = New System.Drawing.Point(83, 73)
+    Me.SplitContainer1.Location = New System.Drawing.Point(83, 84)
     Me.SplitContainer1.Name = "SplitContainer1"
     Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
     '
@@ -149,7 +155,7 @@ Partial Class Form1
     Me.SplitContainer1.Panel1.Controls.Add(Me.txtCommandText)
     Me.SplitContainer1.Panel1.Controls.Add(Me.LinkLabel2)
     Me.SplitContainer1.Panel1.Controls.Add(Me.LinkLabel1)
-    Me.SplitContainer1.Size = New System.Drawing.Size(604, 364)
+    Me.SplitContainer1.Size = New System.Drawing.Size(604, 416)
     Me.SplitContainer1.SplitterDistance = 115
     Me.SplitContainer1.TabIndex = 7
     '
@@ -223,7 +229,7 @@ Partial Class Form1
     Me.chkUseDbContainer.BackColor = System.Drawing.SystemColors.Control
     Me.chkUseDbContainer.Checked = True
     Me.chkUseDbContainer.CheckState = System.Windows.Forms.CheckState.Checked
-    Me.chkUseDbContainer.Location = New System.Drawing.Point(8, 387)
+    Me.chkUseDbContainer.Location = New System.Drawing.Point(8, 450)
     Me.chkUseDbContainer.Name = "chkUseDbContainer"
     Me.chkUseDbContainer.Size = New System.Drawing.Size(72, 59)
     Me.chkUseDbContainer.TabIndex = 12
@@ -236,7 +242,7 @@ Partial Class Form1
     Me.chkBracketTableName.BackColor = System.Drawing.SystemColors.Control
     Me.chkBracketTableName.Checked = True
     Me.chkBracketTableName.CheckState = System.Windows.Forms.CheckState.Checked
-    Me.chkBracketTableName.Location = New System.Drawing.Point(5, 333)
+    Me.chkBracketTableName.Location = New System.Drawing.Point(5, 396)
     Me.chkBracketTableName.Name = "chkBracketTableName"
     Me.chkBracketTableName.Size = New System.Drawing.Size(72, 48)
     Me.chkBracketTableName.TabIndex = 11
@@ -264,7 +270,7 @@ Partial Class Form1
     Me.Label1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
     Me.Label1.AutoSize = True
     Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-    Me.Label1.Location = New System.Drawing.Point(86, 440)
+    Me.Label1.Location = New System.Drawing.Point(86, 503)
     Me.Label1.Name = "Label1"
     Me.Label1.Size = New System.Drawing.Size(95, 15)
     Me.Label1.TabIndex = 13
@@ -275,7 +281,7 @@ Partial Class Form1
     Me.lblExecutionTime.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
     Me.lblExecutionTime.AutoSize = True
     Me.lblExecutionTime.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-    Me.lblExecutionTime.Location = New System.Drawing.Point(187, 440)
+    Me.lblExecutionTime.Location = New System.Drawing.Point(187, 503)
     Me.lblExecutionTime.Name = "lblExecutionTime"
     Me.lblExecutionTime.Size = New System.Drawing.Size(16, 15)
     Me.lblExecutionTime.TabIndex = 14
@@ -283,7 +289,7 @@ Partial Class Form1
     '
     'BtnSchema
     '
-    Me.BtnSchema.Location = New System.Drawing.Point(5, 102)
+    Me.BtnSchema.Location = New System.Drawing.Point(5, 118)
     Me.BtnSchema.Name = "BtnSchema"
     Me.BtnSchema.Size = New System.Drawing.Size(72, 23)
     Me.BtnSchema.TabIndex = 8
@@ -300,11 +306,46 @@ Partial Class Form1
     Me.PictureBox1.TabIndex = 7
     Me.PictureBox1.TabStop = False
     '
+    'MenuStrip1
+    '
+    Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FILEToolStripMenuItem, Me.ToolsToolStripMenuItem})
+    Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+    Me.MenuStrip1.Name = "MenuStrip1"
+    Me.MenuStrip1.Size = New System.Drawing.Size(699, 24)
+    Me.MenuStrip1.TabIndex = 15
+    Me.MenuStrip1.Text = "MenuStrip1"
+    '
+    'FILEToolStripMenuItem
+    '
+    Me.FILEToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem})
+    Me.FILEToolStripMenuItem.Name = "FILEToolStripMenuItem"
+    Me.FILEToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+    Me.FILEToolStripMenuItem.Text = "&File"
+    '
+    'ExitToolStripMenuItem
+    '
+    Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
+    Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+    Me.ExitToolStripMenuItem.Text = "E&xit"
+    '
+    'ToolsToolStripMenuItem
+    '
+    Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GenSQLCreateTableToolStripMenuItem})
+    Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
+    Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
+    Me.ToolsToolStripMenuItem.Text = "Tools"
+    '
+    'GenSQLCreateTableToolStripMenuItem
+    '
+    Me.GenSQLCreateTableToolStripMenuItem.Name = "GenSQLCreateTableToolStripMenuItem"
+    Me.GenSQLCreateTableToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+    Me.GenSQLCreateTableToolStripMenuItem.Text = "Gen SQL Create Table"
+    '
     'Form1
     '
     Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
     Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-    Me.ClientSize = New System.Drawing.Size(699, 458)
+    Me.ClientSize = New System.Drawing.Size(699, 521)
     Me.Controls.Add(Me.BtnSchema)
     Me.Controls.Add(Me.lblExecutionTime)
     Me.Controls.Add(Me.Label1)
@@ -321,6 +362,8 @@ Partial Class Form1
     Me.Controls.Add(Me.LblDbFolder)
     Me.Controls.Add(Me.txtDataFolder)
     Me.Controls.Add(Me.btnDataFolder)
+    Me.Controls.Add(Me.MenuStrip1)
+    Me.MainMenuStrip = Me.MenuStrip1
     Me.Name = "Form1"
     Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
     Me.Text = "Fox Pro Viewer"
@@ -328,6 +371,8 @@ Partial Class Form1
     Me.SplitContainer1.Panel1.PerformLayout()
     Me.SplitContainer1.ResumeLayout(False)
     CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+    Me.MenuStrip1.ResumeLayout(False)
+    Me.MenuStrip1.PerformLayout()
     Me.ResumeLayout(False)
     Me.PerformLayout()
 
@@ -358,5 +403,10 @@ Partial Class Form1
   Friend WithEvents Label1 As System.Windows.Forms.Label
   Friend WithEvents lblExecutionTime As System.Windows.Forms.Label
   Friend WithEvents BtnSchema As System.Windows.Forms.Button
+  Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
+  Friend WithEvents FILEToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+  Friend WithEvents ExitToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+  Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+  Friend WithEvents GenSQLCreateTableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class

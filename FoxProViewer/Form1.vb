@@ -526,4 +526,86 @@ Public Class Form1
     End If
   End Sub
 
+
+  Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
+    Me.Close()
+  End Sub
+
+  Private Sub GenSQLCreateTableToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GenSQLCreateTableToolStripMenuItem.Click
+    Me.GenerateCreateTableSqlScript()
+  End Sub
+
+  Private Sub GenerateCreateTableSqlScript()
+    If Me.DataSource Is Nothing OrElse Me.DataSource.Tables.Count = 0 Then
+      MessageBox.Show("Please execute a query or select * first.", "Generate Create Table SQL", MessageBoxButtons.OK, MessageBoxIcon.Information)
+      Return
+    End If
+
+    Try
+      Dim sb As New System.Text.StringBuilder
+
+      For Each t As DataTable In Me.DataSource.Tables
+        Me.GenerateCreateTableSqlScript(sb, t)
+      Next
+
+      My.Computer.Clipboard.SetText(sb.ToString)
+      MessageBox.Show("Create table script copied to Clipboard", "Generate Create Table SQL", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    Catch ex As Exception
+      MessageBox.Show(ex.Message, "Generate Create Table SQL Failed", MessageBoxButtons.OK, MessageBoxIcon.Information)
+    End Try
+
+
+
+  End Sub
+
+  Private Shared Function DataTypeToSqlDataType(ByVal dc As DataColumn) As String
+    Select Case dc.DataType.ToString
+      Case "System.String"
+        If dc.MaxLength <= 0 Then
+          'ODBC returns -1 for unknown, default to 50?
+          Return "varchar(50)"
+        Else
+          Return "varchar(" & dc.MaxLength.ToString & ")"
+        End If
+      Case "System.Int32"
+        Return "int"
+      Case "System.Decimal"
+        Return "decimal(18,5)"
+      Case "System.DateTime"
+        Return "datetime"
+      Case "System.Boolean"
+        Return "bit"
+    End Select
+
+    Return dc.DataType.ToString
+  End Function
+
+  Private Sub GenerateCreateTableSqlScript(ByVal sb As System.Text.StringBuilder, ByVal t As DataTable)
+
+    sb.AppendLine("CREATE TABLE [" & t.TableName & "] (")
+    Dim iColIndex As Integer = 0
+
+    For Each dc As DataColumn In t.Columns
+      'If dc.ReadOnly Then Continue For 'calcualted column?
+
+      If iColIndex > 0 Then sb.Append(",")
+
+      sb.Append("[" & dc.ColumnName & "] " & DataTypeToSqlDataType(dc))
+
+
+      If dc.AllowDBNull Then
+        sb.Append(" NULL ")
+      Else
+        sb.Append(" NOT NULL ")
+      End If
+
+      sb.AppendLine()
+      iColIndex += 1
+    Next
+
+    sb.AppendLine(")")
+    sb.AppendLine("GO")
+
+  End Sub
+
 End Class
