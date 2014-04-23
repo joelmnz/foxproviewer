@@ -1,0 +1,15 @@
+'Connection String:
+'{0}
+
+Dim dt As New DataTable
+Dim szSql as String = "{1}"
+
+Using cnn as New OleDb.OleDbConnection("{0}")    
+    Using cmd As OleDb.OleDbCommand = cnn.CreateCommand()
+        cmd.CommandText = szSql
+        Using dr As OleDb.OleDbDataReader = cmd.ExecuteReader
+            dt.Load(dr)
+            dr.Close()
+        End Using
+    End Using
+End Using
