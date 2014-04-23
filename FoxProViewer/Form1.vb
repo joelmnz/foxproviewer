@@ -412,6 +412,15 @@ Public Class Form1
         Return True
     End Function
 
+    Function BuildConnectionString() As String
+        If Me.UseDbContainer Then Return BuildConnectionString(Me.DataContainer, Me.GetTableFile, True)
+        Return BuildConnectionString(Me.GetTableFile)
+    End Function
+
+    Function GetTableFile() As String
+        Return IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
+    End Function
+
     Private Sub ExecuteCustomQuery()
         If Me.txtCommandText.Text = "" Then Return
 
@@ -425,7 +434,7 @@ Public Class Form1
             Return
         End If
 
-        Dim tableFile As String = IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
+        Dim tableFile As String = Me.GetTableFile 'IO.Path.Combine(Me.DataFolder, Me.cboTables.Text & ".dbf")
         Dim cnn As OleDb.OleDbConnection = Nothing
 
 
@@ -495,7 +504,7 @@ Public Class Form1
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        If Me.chkUseDbContainer.Checked Then
+        If Me.UseDbContainer Then
             Me.txtCommandText.SelectedText = Me.cboTables.Text
         Else
             Me.txtCommandText.SelectedText = Me.CurrentTableFile
@@ -503,7 +512,7 @@ Public Class Form1
     End Sub
 
     Private Sub LinkLabel2_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
-        If Me.chkUseDbContainer.Checked Then
+        If Me.UseDbContainer Then
             Me.txtCommandText.Text = "UPDATE " & Me.cboTables.Text
         Else
             Me.txtCommandText.Text = "UPDATE " & Me.CurrentTableFile
@@ -511,14 +520,13 @@ Public Class Form1
     End Sub
 
     Private Sub LinkLabel3_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel3.LinkClicked
-        If Me.chkUseDbContainer.Checked Then
-            'Me.cboTables.Text
-            Me.txtCommandText.Text = "SELECT * FROM " & Me.cboTables.Text
-        Else
-            Me.txtCommandText.Text = "SELECT * FROM " & Me.CurrentTableFile
-        End If
-
+        Me.txtCommandText.Text = Me.GetTableSelect
     End Sub
+
+    Private Function GetTableSelect() As String
+        If Me.UseDbContainer Then Return "SELECT * FROM " & Me.cboTables.Text
+        Return "SELECT * FROM " & Me.CurrentTableFile
+    End Function
 
     Private Sub chkUseDbContainer_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkUseDbContainer.CheckedChanged
         If Me.chkUseDbContainer.Checked Then
@@ -736,5 +744,20 @@ Public Class Form1
 
     End Sub
 
+
+    Private Sub CreateConnectionStringToolStripMenuItem_Click(sender As System.Object, e As System.EventArgs) Handles CreateConnectionStringToolStripMenuItem.Click
+        Me.ShowConnectionStringText()
+    End Sub
+
+
+    Private Sub ShowConnectionStringText()
+        Try
+
+            TextBoxForm.ShowMessage(Me.CreateConnectionStringToolStripMenuItem.Text, String.Format(My.Resources.CreateConnectionTemplate, Me.BuildConnectionString, Me.GetTableSelect))
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
 
 End Class

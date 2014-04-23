@@ -19,40 +19,41 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Me.btnDataFolder = New System.Windows.Forms.Button
-        Me.txtDataFolder = New System.Windows.Forms.TextBox
-        Me.dlgFolder = New System.Windows.Forms.FolderBrowserDialog
-        Me.dlgOpen = New System.Windows.Forms.OpenFileDialog
-        Me.LblDbFolder = New System.Windows.Forms.Label
-        Me.cboTables = New System.Windows.Forms.ComboBox
-        Me.btnFillDbTables = New System.Windows.Forms.Button
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.btnRefreshTable = New System.Windows.Forms.Button
-        Me.btnSaveTable = New System.Windows.Forms.Button
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.btnExecuteCommand = New System.Windows.Forms.Button
-        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel
-        Me.Label3 = New System.Windows.Forms.Label
-        Me.txtCommandText = New System.Windows.Forms.TextBox
-        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
-        Me.chkUseDbContainer = New System.Windows.Forms.CheckBox
-        Me.chkBracketTableName = New System.Windows.Forms.CheckBox
+        Me.btnDataFolder = New System.Windows.Forms.Button()
+        Me.txtDataFolder = New System.Windows.Forms.TextBox()
+        Me.dlgFolder = New System.Windows.Forms.FolderBrowserDialog()
+        Me.dlgOpen = New System.Windows.Forms.OpenFileDialog()
+        Me.LblDbFolder = New System.Windows.Forms.Label()
+        Me.cboTables = New System.Windows.Forms.ComboBox()
+        Me.btnFillDbTables = New System.Windows.Forms.Button()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.btnRefreshTable = New System.Windows.Forms.Button()
+        Me.btnSaveTable = New System.Windows.Forms.Button()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnExecuteCommand = New System.Windows.Forms.Button()
+        Me.LinkLabel3 = New System.Windows.Forms.LinkLabel()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.txtCommandText = New System.Windows.Forms.TextBox()
+        Me.LinkLabel2 = New System.Windows.Forms.LinkLabel()
+        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
+        Me.chkUseDbContainer = New System.Windows.Forms.CheckBox()
+        Me.chkBracketTableName = New System.Windows.Forms.CheckBox()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.BtnSchema = New System.Windows.Forms.Button
-        Me.BtnDBSchema = New System.Windows.Forms.Button
-        Me.btnExport = New System.Windows.Forms.Button
-        Me.dlgSave = New System.Windows.Forms.SaveFileDialog
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.lblExecutionTime = New System.Windows.Forms.Label
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip
-        Me.FILEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.GenSQLCreateTableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.BtnSchema = New System.Windows.Forms.Button()
+        Me.BtnDBSchema = New System.Windows.Forms.Button()
+        Me.btnExport = New System.Windows.Forms.Button()
+        Me.dlgSave = New System.Windows.Forms.SaveFileDialog()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.lblExecutionTime = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.FILEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GenSQLCreateTableToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CreateConnectionStringToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,7 +73,7 @@ Partial Class Form1
         'txtDataFolder
         '
         Me.txtDataFolder.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtDataFolder.Location = New System.Drawing.Point(83, 28)
         Me.txtDataFolder.Name = "txtDataFolder"
         Me.txtDataFolder.Size = New System.Drawing.Size(547, 20)
@@ -90,7 +91,7 @@ Partial Class Form1
         'cboTables
         '
         Me.cboTables.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cboTables.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
         Me.cboTables.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
         Me.cboTables.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
@@ -142,8 +143,8 @@ Partial Class Form1
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer1.Location = New System.Drawing.Point(83, 84)
         Me.SplitContainer1.Name = "SplitContainer1"
@@ -193,8 +194,8 @@ Partial Class Form1
         'txtCommandText
         '
         Me.txtCommandText.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.txtCommandText.BackColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
         Me.txtCommandText.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCommandText.ForeColor = System.Drawing.Color.White
@@ -343,7 +344,7 @@ Partial Class Form1
         '
         'ToolsToolStripMenuItem
         '
-        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GenSQLCreateTableToolStripMenuItem})
+        Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GenSQLCreateTableToolStripMenuItem, Me.CreateConnectionStringToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
         Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(48, 20)
         Me.ToolsToolStripMenuItem.Text = "Tools"
@@ -351,8 +352,14 @@ Partial Class Form1
         'GenSQLCreateTableToolStripMenuItem
         '
         Me.GenSQLCreateTableToolStripMenuItem.Name = "GenSQLCreateTableToolStripMenuItem"
-        Me.GenSQLCreateTableToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.GenSQLCreateTableToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
         Me.GenSQLCreateTableToolStripMenuItem.Text = "Gen SQL Create Table"
+        '
+        'CreateConnectionStringToolStripMenuItem
+        '
+        Me.CreateConnectionStringToolStripMenuItem.Name = "CreateConnectionStringToolStripMenuItem"
+        Me.CreateConnectionStringToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.CreateConnectionStringToolStripMenuItem.Text = "Create Connection String"
         '
         'Form1
         '
@@ -424,5 +431,6 @@ Partial Class Form1
   Friend WithEvents ToolsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents GenSQLCreateTableToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents BtnDBSchema As System.Windows.Forms.Button
+    Friend WithEvents CreateConnectionStringToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 
 End Class
