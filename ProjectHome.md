@@ -1,0 +1,1 @@
+Simple, portable fox pro database viewer (with sql query support)
